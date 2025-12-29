@@ -43,41 +43,41 @@ Response
 
 ### 🛠️ Tech Stack
 
-Backend: Flask (Python)
+- Backend: Flask (Python)
 
-LLM / Embeddings: Sentence Transformers / LLM API (Groq)
+- LLM / Embeddings: Sentence Transformers / LLM API (Groq)
 
-Vector DB: ChromaDB
+- Vector DB: ChromaDB
 
-Auth: API Key–based protection
+- Auth: API Key–based protection
 
-Server: Waitress (Windows-compatible)
+- Server: Waitress (Windows-compatible),gunicorn (Linux)
 
 ### 🚀 Future Improvements
 
-UI frontend (React)
+- UI frontend (React)
 
-Background PDF ingestion
+- Background PDF ingestion
 
-Per-user collections
+- Per-user collections
 
-Streaming responses
+- Streaming responses
 
-Multi-language interview support
+- Multi-language interview support
 
-Dockerized deployment
+- Dockerized deployment
 
 ### 📌 Why This Project?
 
-This project was built to:
+## This project was built to:
 
-Deepen understanding of RAG systems
+- Deepen understanding of RAG systems
 
-Apply GenAI in real-world developer workflows
+- Apply GenAI in real-world developer workflows
 
-Build a production-ready backend with security & scalability in mind
+- Build a production-ready backend with security & scalability in mind
 
-Create a practical tool for interview preparation
+- Create a practical tool for interview preparation
 
 ### 👤 Author
 
