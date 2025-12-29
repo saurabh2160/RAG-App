@@ -25,21 +25,24 @@
 
 
 #### 🧠 How It Works (High Level)
-PDF / Docs
-    ↓
-Document Loader
-    ↓
-Text Chunking
-    ↓
-Embedding Generation
-    ↓
-Vector Database
-    ↓
-Semantic Retrieval
-    ↓
-LLM Answer Generation
-    ↓
-Response
+    PDF / Docs
+        ↓
+    Document Loader
+        ↓
+    Text Chunking
+        ↓
+    Embedding Generation
+        ↓
+    Vector Database
+        ↓
+    Semantic Retrieval
+        ↓
+    LLM Answer Generation
+        ↓
+    Response Generation
+        ↓
+    API Response
+
 
 ### 🛠️ Tech Stack
 
@@ -78,6 +81,9 @@ Response
 - Build a production-ready backend with security & scalability in mind
 
 - Create a practical tool for interview preparation
+
+## Exposed API Endpoint to ask question
+https://interview-prep-api.onrender.com/api/v1/answer
 
 ### 👤 Author
 

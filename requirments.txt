@@ -14,3 +14,6 @@ python-dotenv
 Flask
 Jinja2
 pandas
+gunicorn
+functools
+pathlib

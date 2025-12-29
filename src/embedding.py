@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 class EmbeddingPipeline:
     def __init__(self,model_name:str = "all-MiniLM-L6-v2",chunk_size:int = 1000,chunk_overlap:int=200):
         #initialize embedding manger
-        #args : huggingFace modal name for  sentence embeddings
+        #args : huggingFace modal name for sentence embeddings
         self.chunk_size=chunk_size
         self.chunk_overlap=chunk_overlap
         try:
