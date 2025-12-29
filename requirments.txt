@@ -6,14 +6,10 @@ pymupdf
 sentence-transformers
 chromadb
 langchain-groq
-langchain-openai
 langchain-huggingface
-langchain-deepseek
 langchain_text_splitters
 python-dotenv
 Flask
-Jinja2
 pandas
 gunicorn
-functools
 pathlib
