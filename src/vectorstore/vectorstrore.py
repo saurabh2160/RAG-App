@@ -2,7 +2,7 @@ import os
 import chromadb
 from typing import List, Any
 import uuid
-from src.embedding import EmbeddingPipeline
+from src.embed.embedding import EmbeddingPipeline
 import logging
 logging.basicConfig(level=logging.INFO)
 
@@ -21,7 +21,6 @@ class VectorStore:
         logging.info(f'vector db initialized, Collection:{collection_name}')
         logging.info(f'existing documents in colletion: {self.collection.count()}')
         
-    
     def add_documents(self,documents:List[Any]):
         if not documents:
             logging.info("No documents to add")
@@ -30,7 +29,6 @@ class VectorStore:
         embeddings = self.emb_pipeline.embed_chunks(chunked_doc)
         if len(chunked_doc) != len(embeddings):
             raise ValueError("Docs len not match embed len")
-        logging.info(f'Adding {len(chunked_doc)} documents to vector store')
 
         #prepare data for chrorma db
         ids = []

@@ -76,14 +76,19 @@ def load_all_documents(data_dir:str) -> List[Any]:
 
     return all_doc
 
-def load_pdf(pdf_file):
+async def load_pdf(pdf_file):
     try:
         all_doc = []
+        tmp_path = None
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            pdf_file.save(tmp.name)
-            loader = PyPDFLoader(tmp.name)
-            loaded = loader.load()
-            all_doc.extend(loaded)
+            content = await pdf_file.read()
+            tmp.write(content)
+            tmp_path = tmp.name
+
+        loader = PyPDFLoader(tmp_path)
+        loaded = loader.load()
+        all_doc.extend(loaded)
+        Path(tmp_path).unlink()
         return all_doc
     except Exception as e:
         logging.info(f'faild to load {pdf_file} withrror: {e}')

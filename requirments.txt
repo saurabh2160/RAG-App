@@ -9,7 +9,15 @@ langchain-groq
 langchain-huggingface
 langchain_text_splitters
 python-dotenv
-Flask
 pandas
 gunicorn
 pathlib
+fastapi
+typing
+pydantic
+uvicorn
+dotenv
+motor
+pyjwt
+pwdlib[argon2]
+python-multipart

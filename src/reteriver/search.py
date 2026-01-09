@@ -1,5 +1,5 @@
-from src.vectorstrore import VectorStore
-from src.embedding import EmbeddingPipeline as EmbeddingManager
+from src.vectorstore.vectorstrore import VectorStore
+from src.embed.embedding import EmbeddingPipeline as EmbeddingManager
 from typing import List, Dict, Any
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
@@ -7,6 +7,7 @@ from pathlib import Path
 import os
 import logging
 logging.basicConfig(level=logging.INFO)
+load_dotenv()
 
 
 
@@ -14,8 +15,6 @@ logging.basicConfig(level=logging.INFO)
 class RAGretriever: #this is build on top of vector db its a interface 
     #handles query based retirival from vector store
     def __init__(self):
-        env_path = Path(__file__).resolve().parent.parent / ".env"
-        load_dotenv(dotenv_path=env_path,override=True)
         API_KEY = os.getenv("GROK_API_KEY")
         self.vector_store = VectorStore()
         self.embedding_manager = EmbeddingManager()
@@ -31,10 +30,6 @@ class RAGretriever: #this is build on top of vector db its a interface
     def retrieve(self, query: str, top_k: int = 5, score_threshold: float = 0.0) -> List[Dict[str,Any]]:
         #retrieve releavant docs for a given query
         #args :  query -> search query, top_k -> Nuber of top results to return, score_threshold -> minimum similarity score threshold
-        
-        logging.info(f'retrieving docs for:{query}')
-        logging.info(f'top k {top_k} scr threshold :{score_threshold}')
-        
         #genrate query embedding
         query_embedding = self.embedding_manager.generate_embeddings([query])[0]
 
@@ -62,9 +57,7 @@ class RAGretriever: #this is build on top of vector db its a interface
                             'metadata':metadata,
                             'similarity_score':similarity_score,
                             'rank':i+1
-                        })
-                
-                logging.info(f'Retrieved {len(retrieved_docs)} documents after filtering')
+                        })                
             else:
                 logging.info('No documents found')
                 
@@ -112,7 +105,6 @@ class RAGretriever: #this is build on top of vector db its a interface
             "answer": response.content.strip(),
             "confidence": round(confidence, 3),
             "sources": sources,
-            "context_used": return_context
         }
         if return_context:
             output['context'] = context
