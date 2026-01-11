@@ -1,19 +1,19 @@
-from src.reteriver.search import RAGretriever
+from src.ragmodule.reteriver.search import RAGretriever
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
-import logging
-from dotenv import load_dotenv
+from src.config.config import get_req_config
 import os
-load_dotenv()
+import logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
+
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logging.info("🚀 Starting services...")
+    logging.info("Starting services...")
     logging.info("Connecting to MongoDB...")
-    mongo_uri = os.getenv("MONGO_URI")
+    mongo_uri = get_req_config("MONGO_URL")
     client = AsyncIOMotorClient(mongo_uri)
     if not client:
         logging.info("MongoDB connection failed")
@@ -21,17 +21,19 @@ async def lifespan(app: FastAPI):
     retriever = RAGretriever()
     app.state.services = {
         "retriever":retriever,
-        "ragdb": client["ragdb"] if client else None
+        "mongo_client": client
     }
     yield
-    logging.info("🛑 Shutting down services...")
+    logging.info("Shutting down services...")
     logging.info("Disconnecting from MongoDB...")
     await client.close()
     logging.info("Disconnected from MongoDB")
     logging.info("✅ Services stopped")
 
 app = FastAPI(lifespan=lifespan)
-from src.app import ragrouter
+from src.ragmodule.app import ragrouter
+from src.usermodule.index import userrouter
 
 app.include_router(ragrouter,prefix='/rag/v1')
+app.include_router(userrouter,prefix='/user/v1')
 

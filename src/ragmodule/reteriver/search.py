@@ -1,13 +1,10 @@
-from src.vectorstore.vectorstrore import VectorStore
-from src.embed.embedding import EmbeddingPipeline as EmbeddingManager
+from src.ragmodule.vectorstore.vectorstrore import VectorStore
+from src.ragmodule.embed.embedding import EmbeddingPipeline as EmbeddingManager
 from typing import List, Dict, Any
 from langchain_groq import ChatGroq
-from dotenv import load_dotenv
-from pathlib import Path
-import os
+from src.config.config import get_req_config
 import logging
 logging.basicConfig(level=logging.INFO)
-load_dotenv()
 
 
 
@@ -15,7 +12,7 @@ load_dotenv()
 class RAGretriever: #this is build on top of vector db its a interface 
     #handles query based retirival from vector store
     def __init__(self):
-        API_KEY = os.getenv("GROK_API_KEY")
+        API_KEY = get_req_config("GROK_API_KEY")
         self.vector_store = VectorStore()
         self.embedding_manager = EmbeddingManager()
         ### initialize llm model

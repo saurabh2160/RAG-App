@@ -1,25 +1,17 @@
-from src.dataloader.data_loader import load_pdf
-from src.vectorstore.vectorstrore import VectorStore
-from src.reteriver.search import RAGretriever
-from src.auth.auth import verify_api_key
-from fastapi import APIRouter, Request, HTTPException, UploadFile, Depends
+from src.ragmodule.dataloader.data_loader import load_pdf
+from src.ragmodule.vectorstore.vectorstrore import VectorStore
+from src.ragmodule.reteriver.search import RAGretriever
+from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 
 
-ragrouter = APIRouter()
-
-@ragrouter.get('/health')
-async def health():
-    return JSONResponse(content={"status": "ok"})
-
-@ragrouter.post('/query')
-async def query_rag(request: Request):
+async def reterive_user_query(request,user_query,userData):
     try:
         retriever = request.app.state.services["retriever"]
         if not retriever:
             raise HTTPException(status_code=500, detail="RAG retriever not initialized")
-        data = await request.json()
-        query = data.get("query")
+ 
+        query = user_query.get("query")
 
         if not query:
             return JSONResponse(content={"error": "Query is required","status_code":400})
@@ -32,15 +24,9 @@ async def query_rag(request: Request):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-@ragrouter.post('/uploadPdf')
-async def add_new_data(file: UploadFile, request: Request, auth=Depends(verify_api_key)):
+    
+async def add_new_data(file,request):
     try:
-        if auth:
-            pass
-        else:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-
         if not file.filename:
             raise HTTPException(status_code=400, detail="No selected file")
 
@@ -63,9 +49,8 @@ async def add_new_data(file: UploadFile, request: Request, auth=Depends(verify_a
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=str(e))
-
-@ragrouter.get('/deleteCollection')
-async def delete_collection(): # require_api_key needs to be adapted as a FastAPI dependency
+    
+async def delete_collection():
     try:
         vector_store = VectorStore()
         result = vector_store.delete_collection()

@@ -2,7 +2,7 @@ import os
 import chromadb
 from typing import List, Any
 import uuid
-from src.embed.embedding import EmbeddingPipeline
+from src.ragmodule.embed.embedding import EmbeddingPipeline
 import logging
 logging.basicConfig(level=logging.INFO)
 
